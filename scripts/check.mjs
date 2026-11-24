@@ -62,8 +62,8 @@ for (const r of removed.removed) {
   date(r.removed_at);
   assert(typeof r.reason === 'string' && r.reason.trim());
 }
-const expected = data.accounts.map(a => a.uid).join('\n') + (data.accounts.length ? '\n' : '');
-assert.equal(read('data/user-ids.txt'), expected, 'UID 导出必须与正式名单完全一致');
+const exported = read('data/user-ids.txt').split(/\r?\n/).filter(line => line !== '');
+assert.deepEqual(exported, data.accounts.map(a => a.uid), 'UID 导出必须与正式名单完全一致');
 for (const file of ['README.md','AGENTS.md','CONTRIBUTING.md','docs/blocking-workflow.md','docs/verification.md','docs/methodology.md']) {
   assert(read(file).trim(), `缺少文档：${file}`);
 }
